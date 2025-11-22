@@ -1,0 +1,76 @@
+```mermaid
+graph TD
+    %% 定義: クラス（処理）
+    classDef controller fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
+    classDef batch fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
+    classDef trigger fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px;
+    
+    %% 定義: オブジェクト（データ）
+    classDef object fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,stroke-dasharray: 5 5;
+
+    DACtrl[DonationApplicationController.cls<br>寄付申込LWCの決済・口座作成]:::controller
+    FileUpCtrl[FileUploadController.cls<br>各種取込CSVを元に明細作成]:::controller
+    PayFileUpCtrl[PaymentFileUploadController.cls<br>入金ファイル取込と明細生成]:::controller
+    QRSummaryCtrl[QuarterlyReportSummaryController.cls<br>四半期報告集計フロー]:::controller
+    DReceiptHandler[DonationReceiptIssuedSendEmailHandler.cls<br>領収証生成トリガハンドラ]:::trigger
+    MonthlyBatch[MonthlyDonationCreationBatch.cls<br>毎月寄付バッチ生成・更新]:::batch
+
+    DonationApplication(DonationApplication__c<br>寄付行為):::object
+    ContinuousDonation(ContinuousDonation__c<br>毎月寄付設定):::object
+    ContinuousDonationItem(ContinuousDonationItem__c<br>毎月寄付予定):::object
+    GMOPaymentGateway(GMOPaymentGateway__c<br>GMO決済要求):::object
+    Fund(Fund__c<br>基金):::object
+    GMOShop(GMOShop__c<br>GMOショップ):::object
+    AccountObj(Account<br>顧客/法人):::object
+    ContactObj(Contact<br>担当者):::object
+    PaymentDetail(PaymentDetail__c<br>入金明細):::object
+    VendingPayment(VendingMachinePayment__c<br>自販機入金予定):::object
+    VendingDetail(VendingMachineDonationDetails__c<br>自販機寄付明細):::object
+    VendingMachine(VendingMachine__c<br>自販機マスタ):::object
+    Agency(DonationCollectionAgency__c<br>集金代行):::object
+    AgencyDetail(DonationCollectionAgencyDetail__c<br>集金代行明細):::object
+    FiscalYearObj(FiscalYear__c<br>会計年度):::object
+    FundFiscalYear(FundFiscalYear__c<br>基金年度):::object
+    FundTransaction(FundTransaction__c<br>基金入出金):::object
+    ContentDocLink(ContentDocumentLink<br>ファイルリンク):::object
+
+    %% データ発生
+    DACtrl -->|作成| DonationApplication
+    DACtrl -->|作成| ContinuousDonation
+    DACtrl -->|作成| GMOPaymentGateway
+
+    MonthlyBatch -->|作成| DonationApplication
+    MonthlyBatch -->|作成| ContinuousDonationItem
+
+    FileUpCtrl -->|作成| VendingDetail
+    FileUpCtrl -->|作成| AgencyDetail
+    PayFileUpCtrl -->|作成| PaymentDetail
+
+    %% データ更新・消込
+    MonthlyBatch -->|更新| ContinuousDonationItem
+    DReceiptHandler -->|更新| DonationApplication
+    DReceiptHandler -->|更新| ContentDocLink
+
+    %% アクション（間接含む）
+    FileUpCtrl -.->|参照/照合| VendingPayment
+    FileUpCtrl -.->|参照/照合| VendingMachine
+    FileUpCtrl -.->|参照/照合| Agency
+    FileUpCtrl -.->|参照/照合| AccountObj
+
+    PayFileUpCtrl -.->|参照| Fund
+    DACtrl -.->|参照| Fund
+    DACtrl -.->|参照| GMOShop
+    DACtrl -.->|参照| AccountObj
+    DACtrl -.->|参照| ContactObj
+
+    DReceiptHandler -.->|参照| ContentDocLink
+    DReceiptHandler -.->|メール送信| DonationApplication
+
+    %% 集計・活用
+    QRSummaryCtrl -.->|参照/集計| FiscalYearObj
+    QRSummaryCtrl -.->|参照/集計| FundFiscalYear
+    QRSummaryCtrl -.->|参照/集計| FundTransaction
+
+    MonthlyBatch -.->|参照| ContinuousDonation
+    MonthlyBatch -.->|参照| ContinuousDonationItem
+```
