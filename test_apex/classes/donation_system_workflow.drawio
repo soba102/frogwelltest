@@ -1,0 +1,79 @@
+<mxfile host="app.diagrams.net" modified="2024-01-01T00:00:00.000Z" agent="7.1" version="20.5.3" type="device">
+  <diagram id="workflow" name="Donation Flow">
+    <mxGraphModel dx="1370" dy="873" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2" value="LWC寄付画面" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3" value="DonationApplicationController" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="230" y="60" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="4" value="Fund__c / GMOShop__c\n決済設定・メッセージ取得" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="470" y="30" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="5" value="GMOPaymentGateway__c\nリンクプラスAPI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffdede;strokeColor=#d79b9b;" vertex="1" parent="1">
+          <mxGeometry x="470" y="140" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6" value="DonationApplication__c\nContinuousDonation__c" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="720" y="90" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="7" value="ContentDocumentLink\n領収証ファイル" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="970" y="60" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="8" value="DonationReceiptIssuedSendEmailHandler\nQueueableでメール送信" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#cfe2f3;strokeColor=#6d9eeb;" vertex="1" parent="1">
+          <mxGeometry x="970" y="170" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="9" value="MonthlyDonationCreationBatch\n・Schedulableで実行\n・次月のContinuousDonationItem作成\n・DonationApplication生成" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f6e3ce;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="720" y="210" width="220" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="10" value="PaymentFileUploadController\n入金CSV→PaymentDetail__c\n基金紐付け・種別判定" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="230" y="200" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="FileUploadController\nフロー経由でCSVインポート\n・自販機入金(VendingMachinePayment)\n・集金代行(DonationCollectionAgency)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fde9d9;strokeColor=#e6804d;" vertex="1" parent="1">
+          <mxGeometry x="20" y="200" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="QuarterlyReportSummaryController\nFiscalYear__c→FundFiscalYear__c集計\nFundTransaction__cを期間別集約" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#c9daf8;strokeColor=#6d9eeb;" vertex="1" parent="1">
+          <mxGeometry x="500" y="280" width="230" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="フロー/バッチ結果通知や画面表示" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="980" y="310" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="2" target="3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3" target="4">
+          <mxGeometry relative="1" as="geometry"><mxPoint x="340" y="30" as="targetPoint"/></mxGeometry>
+        </mxCell>
+        <mxCell id="16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="3" target="5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="5" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6" target="7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="7" target="8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6" target="9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="21" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="10" target="6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="22" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="11" target="10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="23" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="12" target="13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="24" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="6" target="12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
